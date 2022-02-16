@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title >Calender</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <!-- Favicons -->
+  <link href="img/favicon.png" rel="icon">
+  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="{{ url_for('static',filename='lib/jquery/jquery.min.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/css/datepicker.min.css" integrity="sha512-Ujn3LMQ8mHWqy7EPP32eqGKBhBU8v39JRIfCer4nTZqlsSZIwy5g3Wz9SaZrd6pp3vmjI34yyzguZ2KQ66CLSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.min.js" integrity="sha512-sM9DpZQXHGs+rFjJYXE1OcuCviEgaXoQIvgsH7nejZB64A09lKeTU4nrs/K6YxFs6f+9FF2awNeJTkaLuplBhg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/i18n/datepicker.en.min.js" integrity="sha512-6+P1bat5JJUm3ZeQKup1qbRitLnE7NE8z47htcKFs8LqH/XAbauzUfg1tGdXJKDJlecq9I/lTm9iCO/0uuho/w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- Bootstrap CSS File -->
+  <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+<!--    jquery-->
+  <!-- Libraries CSS Files -->
+    <link href="{{ url_for('static',filename='lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='lib/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+  <!-- Main Stylesheet File -->
+  <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static',filename='lib/clockPicker/clockpicker.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static',filename='lib/clockPicker/standalone.css') }}" rel="stylesheet">
+</head>
+
+<body>
+  <!--/ Nav Star /-->
+  <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+    <div class="container">
+
+      <a class="navbar-brand text-brand col-lg-12" id="logo" style="font-family: 'Gellix'" href="{{ url_for("home") }}">
+          Calender
+      </a>
+      <button type="button" class="btn btn-link nav-search navbar-toggle-box-collapse d-md-none" data-toggle="collapse"
+        data-target="#navbarTogglerDemo01" aria-expanded="false">
+        <span class="fa fa-search" aria-hidden="true"></span>
+      </button>
+      {% block nav %}{% endblock %}
+    </div>
+  </nav>
+  <!--/ Nav End /-->
+  <!--/ Intro Single star /-->
+  {% block status %}
+  {% endblock %}
+  <!--/ Intro Single End /-->
+<!--container-->
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
+<!--  end container-->
+    <!-- <div id="preloader"></div> -->
+          <!-- JavaScript Libraries -->
+          <script src="{{ url_for('static',filename='lib/popper/popper.min.js') }}"></script>
+          <script src="{{ url_for('static',filename='lib/bootstrap/js/bootstrap.min.js') }}"></script>
+          <script src="{{ url_for('static',filename='lib/easing/easing.min.js') }}"></script>
+          <script src="{{ url_for('static',filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+          <script src="{{ url_for('static',filename='lib/scrollreveal/scrollreveal.min.js') }}"></script>
+
+</body>
+</html>

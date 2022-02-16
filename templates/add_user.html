@@ -1,0 +1,33 @@
+{% extends "adminbase.html" %}
+{% block title %}Booking{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<br/> <br/> <br/>
+
+<div class="wrapper text-center">
+	<form class="form-signin">
+	<form method="POST">
+	{{ form.hidden_tag() }}
+
+	<h2 class = "form-signin-heading"> Add User </h2>
+
+	{{ form.username.label(class="form-label")}}
+	{{ form.username(class="form-control")}}
+	<br/>
+
+	{{ form.password_hash.label(class="form-label")}}
+	{{ form.password_hash(class="form-control")}}
+	<br/>
+
+	{{ form.password_hash2.label(class="form-label")}}
+	{{ form.password_hash2(class="form-control")}}
+	<br/>
+
+	{{form.submit(class="btn btn-secondary")}}
+
+{% endblock %}

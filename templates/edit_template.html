@@ -1,0 +1,49 @@
+{% extends 'layout.html'%}
+{% block nav%}
+{% endblock %}
+{% block content %}
+<div class="row col-lg-12 ml-1" style="margin-top:100px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+                {% for category,message in messages %}
+                <div class="alert alert-{{ category }} col-lg-6">{{message}}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+</div>
+
+
+{#<div class="row col-lg-12" >#}
+{#<div class="row col-lg-12">#}
+{#    <form action="" method="POST" class="col-lg-4">#}
+{#        <h6>Add A Ticket</h6>#}
+{#        <br>#}
+{#        <div class="form-group">#}
+{#            {{ form.sms.label(class='form-control-label')}}#}
+{#            {% if form.sms.errors %}#}
+{#            {{ form.sms(class="form-control is-invalid form-control-sm",placeholder="+123456789101")}}#}
+{#            <div class="invalid-feedback">#}
+{#                {% for error in form.sms.errors %}#}
+{#                <span>{{ error }}</span>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#            {% else %}#}
+{#                {{ form.sms(class="form-control form-control-sm",placeholder="+123456789101")}}#}
+{#            {% endif %}#}
+{#        </div>#}
+{##}
+{##}
+{#        <div class="form-group">#}
+{#            <label class="form-control-label" for="sms">Current Message Template</label>#}
+{#            <div class="text-muted" id="sms_template">{{ template.message }}</div>#}
+{#            <br>#}
+{#            <small class="text-danger font-weight-bold">** Please DO NOT REMOVE the {{ ticket_type.code }}{ticket_id}. This will result to an error.</small>#}
+{#            <br>#}
+{#        </div>#}
+{#        <div class="form-group">#}
+{#            {{ form.submit(class="btn btn-primary btn-sm")}}#}
+{#        </div>#}
+{#    </form>#}
+{#</div>#}
+{% endblock %}
+

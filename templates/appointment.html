@@ -1,0 +1,304 @@
+{% extends 'layout.html'%}
+{% block nav%}
+{% endblock %}
+{% block status%}
+
+{% endblock%}
+{% block content %}
+<div class="row col-lg-12 ml-1" style="margin-top:50px;">
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+            {% for category,message in messages %}
+            <div class="alert alert-{{ category }} col-lg-6">{{message}}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+<style>
+    .main_calender{
+        border:4px solid #dedede;
+        padding-top:10px;
+        padding-bottom:30px;
+        padding-left:30px;
+        border-radius:10px;
+    }
+    .not_available{
+        background-color: Transparent; border:2px solid #dedede; border-radius: 5px; color:gray; font-weight:bold;
+    }
+
+    .not_available:hover{
+        background-color: gray; border:2px solid gray; border-radius: 5px; color:white; font-weight:bold;
+    }
+    .available{
+        background-color: Transparent; border:2px solid #b5deff; border-radius: 5px; color:#0a92ff; font-weight:bold;
+    }
+
+
+    .available:hover{
+        background-color: #0a92ff; border:2px solid #0a92ff; border-radius: 5px; color:white; font-weight:bold;
+    }
+
+    .clicked{
+        background-color: #0a92ff; border:2px solid #0a92ff; border-radius: 5px; color:white; font-weight:bold;
+    }
+</style>
+    <div class="row col-lg-12" style="margin-top:50px;">
+     <h4 class="col-lg-12">Create An Appointment</h4>
+     <div class="col-lg-6" id="messages"></div>
+    </div>
+    <div class="container mb-2">
+        <hr >
+    </div>
+
+
+<div class="row col-lg-12" style="margin-top:20px;">
+    <div class="row col-lg-6">
+        <div class="datepicker-here col-lg-6 col-sm-12"  id="datepicker" data-language='en'></div>
+    </div>
+    <div class="row col-lg-6" style="margin-left:-230px">
+            <div class="">
+                <h4 class="text-muted mb-4" id="formatted_date">Wednesday, 24th May 2022</h4>
+                <hr>
+                <span id="parent" class="mb-1">
+
+                </span>
+
+            </div>
+        <div>
+         <div class="">
+                <span id=" mt-3">
+                    <span class="btn btn-sm btn-primary mt-5 pl-2 pr-2 available mr-2" style="">Available</span>
+                    <span class="btn btn-sm btn-primary mt-5 pl-2 pr-2 not_available mr-2" style="">Not Available</span>
+                </span>
+
+            </div>
+            </div>
+    </div>
+</div>
+<div>
+</div>
+    <div class="container mt-5">
+        <div class="btn btn-primary btn-sm pl-3 pr-3" id="create_appointment" onclick="create_appointment()">Create an appointment</div>
+    </div>
+<script>
+    let link_ = "http://127.0.0.1:5000"
+
+    /* AJAX request function
+    params : 
+    url -> link to the backend server 
+    method -> can be POST or GET : Mainly POST is used
+    contentType -> Javascipt Object Notation (JSON) is used
+    data -> this the data to submit to the backend in the JSON format 
+    success -> the funciton the will be invoked if the data from the backend is fetched successfully
+    JSON format : {
+        "name" : "John Doe"
+        "age" : 90,
+        "gender" : "male"
+    }
+    */
+
+    const getData = (url,method,data,handleData) => {
+        $.ajax({
+            url: url,
+            method: method,
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                handleData(result);
+            }
+        });
+  }
+
+   // initialize the calender 
+    // Create start date
+    // THIS IS A PACKAGE  ... documentation based code 
+    // here we initializing the date to today ... as you cannot book for pask dates 
+    // start hour is the maximum hours the calender  can show which inot being really used
+    // therefore not required
+
+    var start = new Date(),
+        startHours = 9;
+
+    // 09:00 AM
+    // setting the time in hours (setHours) and minutes (setMinutes)
+    // basiclly modifies the start = new Date() object above 
+    start.setHours(9);
+    start.setMinutes(0);
+
+    // If today is Saturday or Sunday set 10:00 AM
+    // resticting weekends to start at 10:00 rather than 09:00
+    if ([6, 0].indexOf(start.getDay()) != -1) {
+        start.setHours(10);
+        startHours = 10
+    }
+
+
+    // hook the datepicker to the DOM (Document Object Model)
+    // the datepicker gets the element with the id of "datepicker" in the html page 
+    /*
+    parameters to the datepicker
+    {
+        timepicker -> boolean that sets the  time picker below the calender ... if false the time will not show 
+        language -> sets the language 
+        minhours is the minumum hours avalilabe for booking appoint ment if time is enabled
+        max hour is the viceversa
+        the onSeleect keyword allows events to be triggered when a date is clicked ...
+        in this case  we get the availabe slots in the selected date and list then to the right of the calender 
+        we also format the date and addint on top of the list of available slots 
+        finally we add the cliked date to the localStorage for later use
+    }
+    */ 
+    $('#datepicker').datepicker({
+        timepicker: false,
+        language: 'en',
+        minDate: new Date(),
+        minHours: startHours,
+        maxHours: 18,
+        onSelect: function (fd, d, picker) {
+            getSlots(fd)
+            formatted_date(fd)
+            local_save("appointment_date",fd)
+        }
+    })
+
+
+    // a fucntion that take the currently select date and send it to the backend for formatting 
+    // reasons for sending it ot the baecked and not to the from end the if python 
+    // offers easier formatting 
+    const formatted_date = (date = new Date()) =>{
+        getData(`${link_}/format/date`,"POST",{
+                "date_" : date
+            },(data)=>{
+                console.log(data)
+                $("#formatted_date").html(data.date)
+        })
+    }
+
+    // Getting slots  via ajax.
+    /*
+    params include just the target date 
+    ...date_ ...
+    handle is link to the element where we add the slots to 
+    we use the jQuery selected for ids $("#element_id")
+
+    slots response from the backend are passed to the function (slots)=>{}
+     withon the function the map function is used to loop through all the elements 
+     while formatting them.
+
+    While formatting the strings are appended to the temp variable 
+    when the loop is done the slots are added to the html page via handle.html(temp) [line:217]
+
+    NOTE : onclick="get_slot(this)" added to each slot  ... allow the slot to listen for click event ... 
+    that is, when clicked, a slot will invoke the function get_slot(this). the parameter this is a link that refers to the clicked item (as it me) ... it helps us get the id which is unique for each slot
+    */
+      const getSlots = (date = new Date()) =>{
+        getData(`${link_}/get/slots`,"POST",{
+            "date_" : date
+        },(slots)=>{
+            let handle = $("#parent")
+            let temp = ``
+            slots.map((slot,index)=>{
+
+                if (Number(slot.slot) !== 17) {
+                    if (slot.status === "available"){
+                        temp += `<span class="btn btn-sm btn-primary mt-2 pl-3  pr-3 ${slot.status} mr-2 slots" id="${slot.slot}k00_${slots[index + 1].slot}k00" onclick="get_slot(this)">${slot.slot}:00 - ${slots[index + 1].slot}:00</span>`
+
+                    }else{
+                        temp += `<span class="btn btn-sm btn-primary mt-2 pl-3  pr-3 ${slot.status} mr-2 slots" id="${slot.slot}k00_${slots[index + 1].slot}k00" >${slot.slot}:00 - ${slots[index + 1].slot}:00</span>`
+
+                    }
+                }else{
+                    if (slot.status === "available"){
+                        temp += `<span class="btn btn-sm btn-primary mt-2 pl-2 pr-2 ${slot.status} mr-2 slots " id="${slot.slot}k00_18k00" onclick="get_slot(this)">${slot.slot}:00 - 18:00</span>`
+
+                    }else{
+                        temp += `<span class="btn btn-sm btn-primary mt-2 pl-2 pr-2 ${slot.status} mr-2 slots " id="${slot.slot}k00_1800" >${slot.slot}:00 - 18:00</span>`
+                    }
+                }
+            })
+            handle.html(temp)
+        })
+      }
+    
+      // function to add data tom the local storage
+      // localStorage is a javascript built in Object
+      const local_save = (item,value) =>{
+        localStorage.setItem(item,value)
+    }
+
+    // function to get data from the local storage
+    const get = (item) =>{
+        return localStorage.getItem(item)
+    }
+
+    // This function get the details of the clicked
+    // when invoked the function:
+    /*
+    1. get all the slots  -> $(".slots")
+    2. it then removes any slots with the class clicked -> removeClass("clicked")
+    3. then add the class clicked to the current element -> $(`#${me.id}`).addClass("clicked")
+    4. it adds the clicked item(slot) to the local storage -> local_save("appointment_slot",me.id)
+    */
+
+    const get_slot = (me) =>{
+        let slots = $(".slots")
+        slots.removeClass("clicked")
+        $(`#${me.id}`).addClass("clicked")
+        local_save("appointment_slot",me.id)
+    }
+
+    // This timeout is started when the page loads for the first time and when it reloads 
+    /*
+    1. here it loads the slots for the current day  -> getSlots()
+    2. get tje formatted date on top of the slots from backend  ->formatted_date()
+    3. saves the "init" to the localstorage which means today
+    */
+    setTimeout(()=>{
+        getSlots()
+        formatted_date()
+        local_save("appointment_date","init")
+    },1)
+
+    // ajax request to create an appointment 
+    /*
+    Create appointment function 
+    1. calls the get function for both date and slot -> get("appointment_date")  && get("appointment_slot")
+    2. passes
+        "date" : appointment_date,
+        "slot" : appointment_slot
+    to /appointment/create to the backend 
+
+    3. the data response, is passed to function  (data)=>{}
+    4. if truthy ... the message 'Appointment added successfully' informs user the appointment was created successfully  ... else .... 'Error creating Appointment'
+    4. displaying the message to the user -> $("#messages").html(msg)
+    5. clearning the message after three seconds 
+            setTimeout(()=>{
+                getSlots(appointment_date)
+                $("#messages").html("")
+            },3000)
+    */
+    
+    const create_appointment = () =>{
+        let appointment_date = get("appointment_date")
+        let appointment_slot = get("appointment_slot")
+        getData(`${link_}/appointment/create`,"POST",{
+            "date" : appointment_date,
+            "slot" : appointment_slot
+        },(data)=>{
+            let msg = ""
+            if(data){
+                 msg += `<div class="alert alert-success">Appointment added successfully</div>`
+            }else{
+                 msg += `<div class="alert alert-danger">Error creating Appointment</div>`
+            }
+            $("#messages").html(msg)
+            setTimeout(()=>{
+                getSlots(appointment_date)
+                $("#messages").html("")
+            },3000)
+        })
+    }
+</script>
+{% endblock %}
+

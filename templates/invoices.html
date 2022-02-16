@@ -1,0 +1,45 @@
+{% extends "adminbase.html" %}
+{% block title %}Invoices{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="table-invoice">
+<table>
+	<thead>
+		<tr>
+			<th>Invoice</th>
+			<th>Customer</th>
+			<th>Due Date</th>
+			<th>Status</th>
+			<th>Amount</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Invoice1</td>
+			<td><a href="#">Customer 1</a></td>
+			<td>28/11/21</td>
+			<td><p class="status status-unpaid">Unpaid</p></td>
+			<td class="amount">£234.20</td>
+		</tr>
+		<tr>
+			<td>Invoice2</td>
+			<td><a href="#">Customer 2</a></td>
+			<td>28/11/21</td>
+			<td><p class="status status-paid">Paid</p></td>
+			<td class="amount">£234.20</td>
+		</tr>
+		<tr>
+			<td>Invoice3</td>
+			<td><a href="#">Customer 3</a></td>
+			<td>28/11/21</td>
+			<td><p class="status status-pending">Pending</p></td>
+			<td class="amount">£234.20</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+{% endblock %}

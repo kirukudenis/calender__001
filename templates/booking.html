@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Booking{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+<!-- content for booking page -->
+{% block content %}
+
+<br>
+<br>
+
+<div class = "wrapper text-center">
+	<!-- route to 'booking' template -->
+	<form  class ="form" method="POST" action="{{ url_for('booking')}}">
+		<h3 class = "form-heading"> Contact Details </h3>
+		{{ form.csrf_token }}
+		<!-- use BookingForm object -->
+		{{ form.firstname.label}}
+		{{ form.firstname}} <br>
+		<!-- for loop to display validation errors to user (for relevant field)-->
+		<ul>
+			{% for error in form.firstname.errors %}
+			<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		{{ form.surname.label}}
+		{{ form.surname}}<br>
+		<ul>
+			{% for error in form.surname.errors %}
+			<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		{{ form.email.label}}
+		{{ form.email}}<br>
+		<ul>
+			{% for error in form.email.errors %}
+			<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		{{ form.phone.label}}
+		{{ form.phone}}<br>
+		<ul>
+			{% for error in form.phone.errors %}
+				<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		{{ form.address.label}}
+		{{ form.address}}<br>
+		<ul>
+			{% for error in form.address.errors %}
+			<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		{{ form.userMessage.label}}
+		{{ form.userMessage}}
+		<ul>
+			{% for error in form.userMessage.errors %}
+			<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		<br>
+		<!-- recaptcha form -->
+		{{ form.recaptcha}}
+		<br>
+		<!-- create submit button -->
+		<input type="submit" value="Submit">
+	</form>
+</div>
+
+
+<!--
+	<div class="wrapper text-center ">
+		<form class="form-booking">
+			<h3 class = "form-booking-heading"> Contact Details </h3>
+			<input type="text" class="form-input" name="firstname" placeholder="First name" required="" autofocus="" /><br>
+			<input type="text" class="form-input" name="surname" placeholder="Surname" required=""/><br>
+			<input type="email" class="form-input" name="email" placeholder="Email" required=""/><br>
+			<input type="tel" class="form-input" name="phonenum" placeholder="Phone Number" required=""/><br>
+			<input type="text" class="form-input" name="address" placeholder="Address" required=""/><br>
+			<input type="text" class="form-input" name="postcode" placeholder="Postcode" required=""/><br>
+			<input type="text" class="form-input" name="message" placeholder="Enter a brief description of your problem" required=""/>
+			<button class="btn btn-lg btn-secondary btn-block"> Book Now </button> 
+		</form>
+	</div>
+-->
+{% endblock %}

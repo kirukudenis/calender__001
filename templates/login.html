@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<div class="wrapper text-center">
+		<form class="form">
+			<h2 class = "form-heading"> Login </h2>
+			<input type="text" class="form-input" name="username" placeholder="Username" required="" autofocus="" />
+			<input type="password" class="form-input" name="password" placeholder="Password" required=""/>
+			<a href="#">
+				<p>Forgot Password</p>
+			</a>
+			<button class="btn btn-lg btn-secondary btn-block"> Login </button> 
+		</form>
+	</div>
+{% endblock %}
+
+

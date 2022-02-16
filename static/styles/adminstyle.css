@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap');
+
+html, body{
+	font-family: 'Poppins';
+	font-size:  15px;
+	line-height: 1.5;
+	box-sizing: border-box;
+	margin: 0;
+	overflow-x: hidden;
+	top: 0;
+	left: 0: ;
+	padding-top: 20px;
+}
+
+a:link{
+	text-decoration: none;
+	color: #red !important;
+	font-weight: 500;
+}
+
+a:hover{
+	color: #d69e24 !important;
+}
+
+ul{
+	list-style-type: none !important;
+}
+
+/*Navigation Bar*/
+
+.navbar{
+	background: white !important;
+	padding: 3rem 2rem !important;
+	height: 0rem !important;
+	min-height: 12vh !important;
+}
+
+.navbar .navbar-brand{
+	padding:  1rem 0;
+	display: block;
+	text-decoration: none;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link{
+	padding:  2rem 1.2rem;
+	font-size: 1.4rem;
+	position: relative;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link:hover{
+	border-top: 4px solid #d69e24 !important;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link:hover{
+	border-top: 4px solid #d69e24 !important;
+	color: #d69e24 !important;
+}
+.navbar-nav button {
+	padding: 1.7rem 0;
+}
+
+.navbar-nav .btn{
+	background-color:#d69e24;
+	color: white;
+	border-radius:0 ;
+	padding:1rem 1.5rem ;
+	font-size:1.2rem;
+	margin-top: -10px;
+	margin-left: 10px !important;
+}
+
+.navbar-nav .btn:hover{
+	background-color: grey;
+}
+
+/*Tables*/
+.table-invoice{
+	height: 100vh;
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	font-size: 0.9rem;
+	background-color: #eee;
+
+}
+
+table{
+	border-collapse: collapse;
+	box-shadow: 0 5px #eee;
+	background-color: white;
+	text-align: left;
+	overflow: hidden;
+}
+
+thead{
+	box-shadow:0 5px #eee;
+}
+
+th{
+	padding: 1rem 2rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1rem;
+	font-size: 0.7rem;
+	font-weight: 900;
+}
+
+td{
+	padding: 1rem 2rem;
+}
+
+.status{
+	padding: 0.2rem 1rem;
+	text-align: center;
+}
+
+.status-pending{
+	background-color: #fff0c2;
+	color: #a68b00;
+}
+
+.status-unpaid{
+	background-color: #ffcdd2;
+	color: #c62828;
+}
+
+.status-paid{
+	background-color: #c8e6c9 ;
+	color: #388e3c;
+}
+
+.amount{
+	text-align: right;
+}
+
+.additemBtn{
+	padding: 1rem 2rem;
+	
+}
+
+
+.form-signin{
+	max-width: 380px;
+	margin: 0 auto;
+	background-color: #eee;
+	padding: 15px 40px 50px;
+	border: 1px solid #e5e5e5;
+	border-radius: 10px;
+}
+
+.form-signin .form-signin-heading{
+	margin-bottom: 30px;
+}
+
+.form-signin input[type="text"], .form-signin input[type="password"]{
+	margin-bottom: 30px;
+}
+
+.form-signin .form-input{
+	padding: 10px;
+}

@@ -1,0 +1,67 @@
+<!-- use base page as super class - inherit header and footer -->
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+<!-- content for contact page --> 
+{% block content %}
+
+
+<br>
+<br>
+
+<div class = "wrapper text-center">
+	<!-- route to 'contact' template -->
+	<form  class ="form" method="POST" action="{{ url_for('contact')}}">
+		<h3 class = "form-heading"> Request A Quote </h3>
+		{{ form.csrf_token }}
+		<!-- use ContactForm object -->
+		{{ form.name.label}}
+		{{ form.name}} <br>
+		<!-- for loop to display validation errors to user (for relevant field)-->
+		<ul>
+			{% for error in form.name.errors %}
+			<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		{{ form.email.label}}
+		{{ form.email}}<br>
+		<ul>
+			{% for error in form.email.errors %}
+			<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		{{ form.phone.label}}
+		{{ form.phone}}<br>
+		<ul>
+			{% for error in form.phone.errors %}
+				<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		{{ form.address.label}}
+		{{ form.address}}<br>
+		<ul>
+			{% for error in form.address.errors %}
+			<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		{{ form.userMessage.label}}
+		{{ form.userMessage}}
+		<ul>
+			{% for error in form.userMessage.errors %}
+			<li style ="color: red;">{{error}}</li>
+			{% endfor %}
+		</ul>
+		<br>
+		<!-- recaptcha form -->
+		{{ form.recaptcha}}
+		<br>
+		<!-- create submit button -->
+		<input type="submit" value="Submit">
+	</form>
+</div>
+{% endblock %}
+
